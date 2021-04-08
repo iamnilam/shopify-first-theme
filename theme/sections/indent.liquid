@@ -1,0 +1,58 @@
+{% if section.blocks.size > 0 %}
+  <div class="indent">
+    {% for block in section.blocks %}
+      {% assign data = block.settings %} 
+        {% if data.indentimage %}
+          <div class="indent-data">
+            <a href="{{data.indenturl}}">
+              <img src="{{data.indentimage | img_url: '64x64'}}" >
+              <h3>{{data.indentheader}}</h3>
+              <p>{{data.indentsubtext}}</p>
+            </a>
+          </div>
+        {% endif %}     
+    {% endfor %}
+  </div>
+{% endif %}
+{% schema %}
+  {
+    "name":"indent",
+    "blocks":[
+      {
+        "type": "indent",
+        "name": "indent",
+        "settings":
+        [
+            {
+              "type": "image_picker",
+              "id": "indentimage",
+              "label": "select image for indent icon"
+            },
+            {
+              "type": "text",
+              "id": "indentheader",
+              "label": "Indentheader",
+              "default": "enter indent header"
+            },
+            {
+              "type": "text",
+              "id": "indentsubtext",
+              "label": "Indent text",
+              "default": "enter indent text"
+            },
+            {
+              "type": "url",
+              "id": "indenturl",
+              "label": "Select the url for indent"
+            }
+        ]
+       }
+     ],
+     "presets": [
+    {
+      "category": "indent",
+      "name":"indent"
+    }
+  ]
+  }
+{% endschema %}

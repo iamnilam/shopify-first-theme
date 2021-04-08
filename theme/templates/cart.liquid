@@ -1,0 +1,49 @@
+{% if cart.item_count > 0 %}
+  <div class="cart">
+    <h1>{{cart.general.title}}</h1>
+      <form action="{{ routes.cart_url }}" method="post">
+        <table>
+          <thead>
+            <th>{{ 'cart.label.product' | t }}</th>
+            <th>{{ 'cart.label.price' | t }}</th>
+            <th>{{ 'cart.label.quantity' | t }}</th>
+            <th>{{ 'cart.label.total' | t }}</th>
+            <th>{{ 'cart.label.actions' | t }}</th>
+          </thead>
+            {% for item in cart.items %}
+              <tr>
+                <td>
+                  <a href="{{ item.url}}">
+                    <img src="{{ item | img_url: '200X200' }}" alt="{{ item.title }}">
+                  </a>
+                </td>
+                <td>{{item.price |money}}
+                  <input  id="hiddenprice" type="hidden" value="{{item.price |money}}">
+                </td>
+                <td>
+                  <input type="number" name="updates[]" id="updates_{{ item.key }}" class="cart__product-qty hiddenquantity" value="{{ item.quantity }}" min="0" data-id="{{ item.key }}">
+                 </td>
+                  <td>
+                    {{item.final_line_price |money }}
+                  </td>
+                  <td><a href="/cart/change?line={{ forloop.index }}&amp;quantity=0"> {{'cart.label.actiontag' | t }}</a></td>
+              </tr>
+            {% endfor %}
+            <tr>
+              <td>{{cart.total_price | money}}</td>
+            </tr>
+            <tr>
+              <td>{{'cart.general.note' | t}}</td>
+              <td><textarea  name="note" id="notes" placeholder="Enter notes for product"></textarea></td>
+            </tr>
+        </table>
+        <button>{{'cart.general.update' | t}}</button>
+        <a id="cartclear" href="/cart/clear">{{'cart.label.clearall' | t}}</a>
+        <button>{{'cart.general.checkout' | t}}</button>
+      </form>
+  </div>
+  {% else %}
+  <div class="cart-empty">
+    {{cart.general.empty}}
+  </div>
+{% endif %}

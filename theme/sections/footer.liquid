@@ -1,0 +1,102 @@
+<div class="footer">
+  {% if section.blocks.size > 0 %}
+    {%- for block in section.blocks -%}
+      {% if block.type == 'newsletter' %}
+        <div class="newsletter">
+          {% form 'customer'  %}
+            {% if form.posted_successfully? %}
+              <p>{{ 'general.newsletter_form.confirmation' | t }}</p>
+            {% endif %}
+            <input type="email" id="email" placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}" required/>
+            <button type="submit">{{'general.newsletter_form.submit' | t}}</button>
+          {% endform %}
+        </div>
+      {% endif %}
+    {%- endfor -%}
+  {% endif %}
+  {% if section.blocks.size > 0 %}
+    <div class="footermenu">
+      {% for block in section.blocks %}
+        {% if block.type == 'footer-nav' %}
+          <ul class="parent">
+            {{ block.settings.footermenu | upcase}}
+              {% for link in linklists[block.settings.footermenu].links %}
+                <li><a href="{{ link.url }}">{{ link.title }}</a>
+                  {% if link.links != blank %}
+                    <ul class="child">
+                      {% for sublink in link.links %}
+                        <li><a href="{{ sublink.url }}">{{ sublink.title }}</a>
+                          {% if sublink.links != blank %}
+                            <ul class="grandchild">
+                              {% for sublink in sublink.links %}
+                                <li><a href="{{ sublink.url }}">{{ sublink.title }}</a></li>
+                              {% endfor %}
+                            </ul> 
+                          {% endif %}   
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}   
+                </li> 
+              {% endfor %}
+          </ul>
+        {% endif %}
+      {% endfor %}  
+    </div>
+  {% endif %}
+  {% if section.blocks.size > 0 %}
+    <div class="footer-richtext">
+      {% for block in section.blocks %}
+        {% if block.type == 'footer-richtext' %}
+          <h1>{{block.settings.footerrichtext_header}}</h1>
+          <p>
+            {{block.settings.footerrichtext}}
+          </p>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+  <div class="copyright">
+    {% if settings.logo %}
+      <a href="{{routes.root_url}}">
+        <img src="{{ settings.logo | img_url: 'medium' }}" alt="{{shop.name}}" >
+      </a>
+    {% endif %}
+    {% assign copyright = "© Wokiee 2021. All Rights Reserved" %}
+    {{ copyright }}
+  </div>
+</div>
+{% schema %}
+{
+	"name": "Footer", 
+	"blocks": [{
+			"name": "footer-nav",
+			"type": "footer-nav",
+			"settings": [{
+				"type": "link_list",
+				"id": "footermenu",
+				"label": "Use For Footer"
+			}]
+		},
+		{
+			"name": "footer-richtext",
+			"type": "footer-richtext",
+			"settings": [{
+					"type": "text",
+					"id": "footerrichtext_header",
+					"label": "Content-header"
+				},
+				{
+					"type": "richtext",
+					"id": "footerrichtext",
+					"label": "Content"
+				}
+			]
+		},
+    {
+      "name":"footer-newsletter",
+      "type":"newsletter" 
+    }
+	]
+}
+{% endschema %}

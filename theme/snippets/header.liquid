@@ -1,0 +1,99 @@
+<style>
+  {% if settings.align_logo == 'left' %}
+  .header-logo {
+        margin: 0;
+      }
+  {% else %}
+  .header-logo {
+        margin-left: 50%;
+      }
+  {% endif %}
+</style>
+{% if settings.message %}
+  <style>
+    .announcement-bar {
+        background-color: {{ settings.color_bg }};
+        
+      }
+      .announcement-bar__message {
+        color: {{ settings.color_text }};
+      }
+  </style>
+{% endif %}
+
+
+<div class="header">
+  {% if settings.message %}
+    <div class="announcement-bar" style="height: 30px;">
+      <a href="{{settings.message_link }}" class="announcement-bar__link">
+        <p class="announcement-bar__message">{{settings.message_text | escape }}</p>
+      </a>
+    </div>
+  {% endif %}
+  {% if settings.logo != blank %}
+    <div class="header-logo">
+      <a href="{{routes.root_url}}">
+        <img src="{{ settings.logo | img_url: 'medium' }}">
+      </a>
+    </div>
+  {% endif %}
+  {% if linklists[settings.headermenu].links.size > 0 %}
+    <div class="headermenu">
+      <ul class="parent">
+        {% for link in linklists[settings.headermenu].links %}
+          <li><a class="parentlink" href="{{ link.url }}">{{ link.title }}</a>
+            {% if link.links != blank %}
+              <ul class="child" >
+                {% for sublink in link.links %}
+                  <li><a href="{{ sublink.url }}">{{ sublink.title }}</a>
+                    {% if sublink.links != blank %}
+                      <ul class="child">
+                        {% for sublink in sublink.links %}
+                          <li><a href="{{ sublink.url }}">{{ sublink.title }}</a></li>
+                        {% endfor %}
+                      </ul> 
+                    {% endif %}   
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}   
+          </li> 
+        {% endfor %}
+     </ul>
+    </div>
+  {% endif %}
+  <div class="header-icon">
+    {% include 'search-drawer' %}
+    {%- if settings.iconcart -%}
+      <div class="header-cart">
+        <a id="icon-cart"  href="{{ routes.cart_url }}">
+          <img  id="icon-cart" src="{{settings.iconcart | img_url: '32x32'}}">
+          <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
+          {% if cart.item_count > 0 %}
+            <div class="cart-count">
+              <span>{{ cart.item_count }}</span>
+              <span>{{ 'layout.cart.items_count' | t: count: cart.item_count }}</span>
+            </div>
+          {% endif %}
+        </a>
+      </div>
+    {%- endif -%}
+    {%- if settings.iconprofile -%}
+      <div class="header-profile">
+        {% if shop.customer_accounts_optional %}
+          {% if customer %}
+            <a href="{{ routes.account_url }}">
+              <img id="icon-profile" src="{{settings.iconprofile | img_url: '32x32'}}">
+              <span class="icon__fallback-text">{{ 'layout.customer.account' | t }}</span>
+            </a>
+          {% else %}
+            <a href="{{ routes.account_login_url }}">
+              <img id="icon-profile" src="{{settings.iconprofile | img_url: '32x32'}}">
+              <span class="icon__fallback-text">{{ 'layout.customer.log_in' | t }}</span>
+            </a>
+          {% endif %}
+        {% endif %}
+      </div>
+    {%- endif -%}
+  </div>
+</div>

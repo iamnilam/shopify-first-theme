@@ -1,0 +1,64 @@
+{% if section.blocks.size > 0 %}
+  <div class="home-product">
+    {% for block in section.blocks %}
+      {% assign product = all_products[block.settings.homeproduct] %}
+      {% if product != blank %}
+        <div class="product-data" id="product-data">
+            <a href="{{ product.url }}">
+              <img src="{{ product | img_url: 'medium'}}"/>
+            </a>
+            <button id="quick-view-button" data-handle="{{ product.handle }}">{{'products.product.quickview' | t}}</button>
+            <button>{{'products.product.wishlist' | t}}</button>
+            <button>{{'products.product.compare' | t}}</button>
+            {{product.vendor}}
+            {{product.title}}
+            {{product.price | money_with_currency}}
+            {% if product.variants != blank %}
+              <div class="product-variants">
+                <form action="/cart/add" id="addtocartform-home" method="post" onsubmit="return false" autocomplete="off" enctype="multipart/form-data">
+                  <select name="varianttitle" id="variantSelect">
+                    {% for variant in product.variants %}
+                      <option value="{{variant.id}}">
+                        {{variant.id}}
+                        {{ variant.title }}
+                        {{ variant.price | money_with_currency }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                  <input type="number" name="quantity" id="quantity" min="1" value="1"/>
+                  <button type="submit" name="add" id="addtocarthome"> {{'cart.general.btnname'| t }}</button>
+                </form>
+              </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
+{% schema %}
+{
+  "name":"product",
+  "blocks":
+  [
+   {
+     "name":"product",
+     "type":"home_product",
+     "settings":
+      [
+      {
+        "type": "product",
+        "id": "homeproduct",
+        "label": "product",
+        "info": "select product for home page"
+      },
+      ]
+   } 
+  ],
+  "presets": [
+    {
+      "category": "product",
+      "name":"product"
+    }
+  ]
+}
+{% endschema %}

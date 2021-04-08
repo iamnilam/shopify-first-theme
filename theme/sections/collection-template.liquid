@@ -1,0 +1,52 @@
+{% if section.blocks.size > 0 %}
+  <div class="home-collection">
+    {% for block in section.blocks %}
+    {% if block.settings.homecollection != blank %}
+      {% assign collection = collections[block.settings.homecollection] %}
+      <div class="collection-data">
+        <a href="{{ collection.url }}">
+          <img src="{{ collection.image | img_url: 'original'}}"/>
+          <div class="collectoin btn">
+          <button>{{ collection.title }}</button>
+          </div>
+          <div class="collection-text">
+            {{ block.settings.collectiontext}}
+          </div>
+        </a>
+      </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
+{% schema %}
+{
+  "name":"collection",
+  "blocks":
+  [
+   {
+     "name":"collection",
+     "type":"home-collection",
+     "settings":
+      [
+      {
+        "type": "collection",
+        "id": "homecollection",
+        "label": "collection",
+        "info": "select collection for home page"
+      },
+      {
+        "type": "text",
+        "id": "collectiontext",
+        "label": "enter text for collectoin"
+      }
+      ]
+   } 
+  ],
+  "presets": [
+    {
+      "category": "collection",
+      "name":"collection"
+    }
+  ]
+}
+{% endschema %}

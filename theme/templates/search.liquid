@@ -1,0 +1,47 @@
+{% if search.performed == false %}
+  <a href="{{routes.root_url}}">{{'general.search.title' |t}}</a>
+{% else %}
+  {% for item in search.results %}
+    {% if item.object_type == 'article' %}
+      <div class="search-article">
+            <table>
+              <tr>
+                <td>{{item.title | link_to: item.url}}</td>
+                <td>
+                    <a href="{{item.url}}">
+                      <img src="{{item.image.src | img_url: 'medium'}}" alt="{{article.image.alt}}">
+                    </a>
+                </td>
+                <td style="width: 40%;"><p>{{item.content}}</p></td>
+                <td>{{item.user.first_name}}</td>
+                <td>{{item.updated_at| date: '%d-%m-%y'}}</td>
+              </tr>
+            </table>
+      </div>
+    {% elsif item.object_type == 'product' %}
+      <div class="search-product">
+        <table>
+          <tr>
+            <td>{{item.title | link_to: item.url}}</td>
+            <td>
+              <a href="{{item.url}}">
+                <img src="{{item | img_url:'medium'}}">
+              </a>  
+            </td>
+            <td>{{item.price | money_with_currency}}</td>
+          </tr>
+        </table>
+      </div>
+    {% else %}
+      <div class="search-page">
+        <table>
+          <tr>
+            <td>{{item.title | link_to: item.url}}</td>
+            <td>{{item.author}}</td>
+            <td>{{item.content}}</td>
+          </tr>
+        </table>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}

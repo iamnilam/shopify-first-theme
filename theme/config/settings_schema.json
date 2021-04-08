@@ -1,0 +1,88 @@
+[{
+        "name": "theme_info",
+        "theme_name": "Debut",
+        "theme_author": "Shopify",
+        "theme_version": "17.10.0",
+        "theme_documentation_url": "https:\/\/help.shopify.com\/manual\/using-themes\/themes-by-shopify\/debut",
+        "theme_support_url": "https:\/\/support.shopify.com\/"
+    },
+    {
+        "name": "Header",
+        "settings": [{
+                "type": "radio",
+                "id": "align_logo",
+                "label": "align-logo",
+                "default": "left",
+                "options": [{
+                        "value": "left",
+                        "label": "left"
+                    },
+                    {
+                        "value": "center",
+                        "label": "center"
+                    }
+                ]
+            },
+            {
+                "type": "header",
+                "content": "Announcement bar"
+            },
+            {
+                "type": "checkbox",
+                "id": "message",
+                "label": "Show announcement",
+                "default": false
+            },
+            {
+                "type": "text",
+                "id": "message_text",
+                "label": "Text",
+                "default": "Announce something here"
+            },
+            {
+                "type": "url",
+                "id": "message_link",
+                "label": "Link",
+                "info": "Optional"
+            },
+            {
+                "type": "color",
+                "id": "color_bg",
+                "label": "Bar",
+                "default": "#3a3a3a"
+            },
+            {
+                "type": "color",
+                "id": "color_text",
+                "label": "Text",
+                "default": "#ffffff"
+            },
+            {
+                "type": "image_picker",
+                "id": "logo",
+                "label": "Logo Image"
+            },
+            {
+                "type": "link_list",
+                "id": "headermenu",
+                "label": "Use for header",
+                "default": "main-menu"
+            },
+            {
+                "type": "image_picker",
+                "id": "iconserch",
+                "label": "icon"
+            },
+            {
+                "type": "image_picker",
+                "id": "iconcart",
+                "label": "icon"
+            },
+            {
+                "type": "image_picker",
+                "id": "iconprofile",
+                "label": "icon"
+            }
+        ]
+    }
+]

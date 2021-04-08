@@ -1,0 +1,21 @@
+{% if collection.title != blank %}
+  <div class="collection">
+    {{collection.title}}
+      <img src="{{ collection.image | img_url: 'large' }}">
+        {{ collection.description }}
+          {% if collection.products != blank  %}
+              <div class="collection-product">
+                {% for product in collection.products %}
+                <div class="product">
+                  <a href="{{ product.url | within: collection }}">
+                    <img src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+                  </a>
+                  <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+                  {{product.vendor}}
+                  {{product.price | money_with_currency}}
+                </div>
+                {% endfor %}
+              </div>
+          {% endif %}
+  </div>
+{% endif %}

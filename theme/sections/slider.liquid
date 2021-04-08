@@ -1,0 +1,105 @@
+{% if section.blocks.size > 0 %}
+{% assign slider = section.settings %}
+  <div class="home-slider" data-slick='{"autoplay": {{ slider.autoplay }}, 
+  "autoplaySpeed": {{ slider.speed }}, "dots": {{ slider.dots }},  "infinite":{{ slider.infinite }}}'>
+    {% for block in section.blocks %}
+    <div class="slider-image">
+      {% assign sliderimage = block.settings.sliderimage %}
+        {% if sliderimage !=blank %}
+          <img src="{{ sliderimage | img_url: 'original' }}">
+              <div class="slider-text">
+                {% if block.settings.heading-text != null %}
+                  <h1>{{ block.settings.heading-text }}</h1>
+                {% endif %} 
+                {% if block.settings.sub-text %}
+                  <p>{{block.settings.sub-text }}</p>
+                {% endif %} 
+                {% if block.settings.button_url != null %}
+                  <button>{{ block.settings.button_text}}</button>
+                {% endif %}
+              </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% schema %}
+{
+	"name": "Slideshow",
+	"settings": [{
+			"type": "header",
+			"content": "slider"
+		},
+		{
+			"type": "checkbox",
+			"id": "autoplay",
+			"label": "Enable autoplay",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "dots",
+			"label": "dots",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "infinite",
+			"label": "infinite",
+			"default": false
+		},
+		{
+			"type": "select",
+			"id": "speed",
+			"label": "slides changes every",
+			"options": [{
+					"value": "1000",
+					"label": "1 second"
+				},
+				{
+					"value": "2000",
+					"label": "2 second"
+				}, {
+					"value": "3000",
+					"label": "3 second"
+				}
+			],
+			"default": "3000"
+		}
+	],
+	"blocks": [{
+		"name": "image",
+		"type": "select",
+		"settings": [{
+				"type": "image_picker",
+				"id": "sliderimage",
+				"label": "Image for Slider"
+			},
+			{
+				"id": "heading-text",
+				"type": "text",
+				"label": "Head-Text"
+			},
+			{
+				"id": "sub-text",
+				"type": "text",
+				"label": "sub-text"
+			},
+			{
+				"id": "button_url",
+				"type": "url",
+				"label": "Button Url"
+			},
+			{
+				"id": "button_text",
+				"type": "text",
+				"label": "Button Text"
+			}
+		]
+	}],
+	"presets": [{
+		"category": "home slider",
+		"name": "home slider"
+	}]
+}
+{% endschema %}

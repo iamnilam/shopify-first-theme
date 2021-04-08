@@ -1,0 +1,51 @@
+{% if section.blocks.size > 0 %}
+  <div class="blog">
+    {% for block in section.blocks %}
+      {% if block.settings.blogs != blank %}
+        <div class="blog-data">
+          {% if blogs[block.settings.blogs].articles.size > 0  %}
+            <div class="article-data">
+              {% for article in blogs[block.settings.blogs].articles %}
+                <a href="{{article.url}}">
+                  <img src="{{article.image | img_url: 'medium'}}" alt="{{article.title}}">
+                  {{article.title}}
+                </a>
+                {{article.content}}
+                {{article.user.first_name}}
+                {{article.updated_at| date: '%d-%m-%y'}}
+                {{article.comments_count}}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
+{% schema %}
+{
+  "name":"blog",
+  "blocks":
+  [
+   {
+     "name":"blog",
+     "type":"blog",
+     "settings":
+      [
+      {
+        "type": "blog",
+        "id": "blogs",
+        "label": "Blog",
+        "info": "select blog page for your home page"
+      }
+      ]
+   } 
+  ],
+  "presets": [
+    {
+      "category": "blog",
+      "name":"blog"
+    }
+  ]
+}
+{% endschema %}
